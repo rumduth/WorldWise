@@ -1,0 +1,94 @@
+.city {
+  padding: 2rem 3rem;
+  max-height: 70%;
+  background-color: var(--color-dark--2);
+  border-radius: 7px;
+  overflow-y: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.city h6 {
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: var(--color-light--1);
+}
+
+.city h3 {
+  font-size: 1.9rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.city h3 span {
+  font-size: 3.2rem;
+  line-height: 1;
+}
+
+.city p {
+  font-size: 1.6rem;
+}
+
+.city a:link,
+.city a:visited {
+  font-size: 1.6rem;
+  color: var(--color-brand--1);
+  text-decoration: none;
+}
+
+.city a:hover,
+.city a:focus {
+  text-decoration: underline;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formGroup {
+  border: 1px solid var(--color-light--2);
+  padding: 1rem;
+  border-radius: 5px;
+}
+
+input[type="text"],
+input[type="date"] {
+  padding: 0.6rem 1rem;
+  font-size: 1.4rem;
+  border: 1px solid var(--color-light--2);
+  border-radius: 5px;
+  background-color: var(--color-dark--1);
+  color: var(--color-light--1);
+}
+
+input[type="text"]::placeholder {
+  color: var(--color-light--2);
+}
+
+.saveBtn {
+  margin-top: 2rem;
+  align-self: flex-start;
+  padding: 0.7rem 1.5rem;
+  font-size: 1.4rem;
+  background-color: var(--color-brand--1);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.saveBtn:hover {
+  background-color: var(--color-brand--2);
+}
