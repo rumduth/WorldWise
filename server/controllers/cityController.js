@@ -96,7 +96,6 @@ exports.deleteCity = async (req, res) => {
 };
 
 exports.updateCity = async (req, res) => {
-  console.log(req.body);
   try {
     const updatedCity = await City.findByIdAndUpdate(
       req.params.id,
