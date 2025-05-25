@@ -3,15 +3,11 @@ import { useState } from "react";
 import styles from "./CountryItem.module.css";
 import { formatDate } from "../utils/dates";
 
-
 function CountryItem({ country }) {
   const [showDates, setShowDates] = useState(false);
   return (
-    <li className={styles.countryItem}>
-      <div 
-        onClick={() => setShowDates(!showDates)} 
-        style={{ cursor: "pointer" }}
-      >
+    <li className={styles.countryItem} onClick={() => setShowDates(!showDates)}>
+      <div>
         <span>{country.emoji}</span>
         <span>{country.country}</span>
         <span>
@@ -20,7 +16,7 @@ function CountryItem({ country }) {
           {country.visitCount === 1 ? "time" : "times"})
         </span>
       </div>
-      
+
       {showDates && country.visitDates && country.visitDates.length > 0 && (
         <div className={styles.datesList}>
           <h4>Visit Dates:</h4>
