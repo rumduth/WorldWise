@@ -36,3 +36,24 @@
   font-size: 1.4rem;
   color: var(--color-light--2);
 }
+
+.datesList {
+  margin-top: 0.5rem;
+  margin-left: 2rem;
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.datesList h4 {
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+}
+
+.datesList ul {
+  list-style-type: disc;
+  margin-left: 1rem;
+}
+
+.datesList li {
+  margin-bottom: 0.2rem;
+}
