@@ -1,4 +1,3 @@
-// src/components/Map.jsx
 import { useNavigate } from "react-router-dom";
 import {
   MapContainer,
@@ -25,8 +24,6 @@ function Map() {
     getPosition,
   } = useGeolocation();
   const [mapLat, mapLng] = useUrlPosition();
-  // Add a key state to force re-mount of MapContainer when navigating
-  const [mapKey, setMapKey] = useState(Date.now());
 
   useEffect(
     function () {
@@ -42,13 +39,6 @@ function Map() {
     },
     [geolocationPosition]
   );
-  
-  // Add effect to regenerate the map key when navigating
-  useEffect(() => {
-    // This will force the MapContainer to unmount and remount
-    setMapKey(Date.now());
-  }, [window.location.pathname]);
-  
   if (!cities) cities = [];
   return (
     <div className={styles.mapContainer}>
@@ -59,7 +49,7 @@ function Map() {
       )}
 
       <MapContainer
-        key={mapKey}
+        key={Math.random().toFixed(5)}
         center={mapPosition}
         zoom={6}
         scrollWheelZoom={true}
@@ -86,7 +76,6 @@ function Map() {
     </div>
   );
 }
-
 
 function ChangeCenter({ position }) {
   const map = useMap();
