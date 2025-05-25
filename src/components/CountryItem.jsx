@@ -1,20 +1,11 @@
 // src/components/CountryItem.jsx
 import { useState } from "react";
 import styles from "./CountryItem.module.css";
+import { formatDate } from "../utils/dates";
+
 
 function CountryItem({ country }) {
   const [showDates, setShowDates] = useState(false);
-
-  // Format dates for display
-  const formatDate = (dateString) => {
-    if (!dateString) return "";
-    return new Date(dateString).toLocaleDateString("en-US", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
-  };
-
   return (
     <li className={styles.countryItem}>
       <div 
