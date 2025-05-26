@@ -9,7 +9,7 @@ import {
 } from "react-leaflet";
 
 import styles from "./Map.module.css";
-import { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useMemo } from "react";
 import { useCities } from "../contexts/CitiesContext";
 import { useGeolocation } from "../hooks/useGeolocation";
 import { useUrlPosition } from "../hooks/useUrlPosition";
@@ -39,17 +39,35 @@ function Map() {
     },
     [geolocationPosition]
   );
+  // Ensure cities is an array
   if (!cities) cities = [];
+
+  // Memoize the city markers to prevent re-renders
+  const cityMarkers = useMemo(() => {
+    return cities.map((city) => (
+      <Marker position={[city.position.lat, city.position.lng]} key={city._id}>
+        <Popup>
+          <span>{city.emoji}</span> <span>{city.cityName}</span>
+        </Popup>
+      </Marker>
+    ));
+  }, [cities]);
+
+  // Memoize the position button to prevent re-renders
+  const positionButton = useMemo(() => {
+    if (geolocationPosition) return null;
+    return (
+      <Button type="position" onClick={getPosition}>
+        {isLoadingPosition ? "Loading..." : "Use your position"}
+      </Button>
+    );
+  }, [geolocationPosition, isLoadingPosition, getPosition]);
+
   return (
     <div className={styles.mapContainer}>
-      {!geolocationPosition && (
-        <Button type="position" onClick={getPosition}>
-          {isLoadingPosition ? "Loading..." : "Use your position"}
-        </Button>
-      )}
+      {positionButton}
 
       <MapContainer
-        key={Math.random().toFixed(5)}
         center={mapPosition}
         zoom={6}
         scrollWheelZoom={true}
@@ -59,16 +77,7 @@ function Map() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
         />
-        {cities.map((city) => (
-          <Marker
-            position={[city.position.lat, city.position.lng]}
-            key={city._id}
-          >
-            <Popup>
-              <span>{city.emoji}</span> <span>{city.cityName}</span>
-            </Popup>
-          </Marker>
-        ))}
+        {cityMarkers}
 
         <ChangeCenter position={mapPosition} />
         <DetectClick />
@@ -79,16 +88,31 @@ function Map() {
 
 function ChangeCenter({ position }) {
   const map = useMap();
-  map.setView(position);
+
+  useEffect(() => {
+    map.setView(position);
+  }, [map, position]);
+
   return null;
 }
 
 function DetectClick() {
   const navigate = useNavigate();
 
+  // Use useCallback to memoize the click handler
+  const handleClick = useCallback(
+    (e) => {
+      navigate(`form?lat=${e.latlng.lat}&lng=${e.latlng.lng}`);
+    },
+    [navigate]
+  );
+
   useMapEvents({
-    click: (e) => navigate(`form?lat=${e.latlng.lat}&lng=${e.latlng.lng}`),
+    click: handleClick,
   });
+
+  return null;
 }
 
-export default Map;
+// Wrap the Map component with React.memo to prevent unnecessary re-renders
+export default React.memo(Map);
