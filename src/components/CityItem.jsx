@@ -1,16 +1,19 @@
 import { Link } from "react-router-dom";
 import { useCities } from "../contexts/CitiesContext";
+import { useNotification } from "../contexts/NotificationContext";
 import styles from "./CityItem.module.css";
 import { formatDate } from "../utils/dates";
 
 function CityItem({ city }) {
   const { currentCity, deleteCity } = useCities();
+  const { addNotification } = useNotification();
 
   const { cityName, emoji, date, _id: id, position } = city;
 
-  function handleClick(e) {
+  async function handleClick(e) {
     e.preventDefault();
-    deleteCity(id);
+    await deleteCity(id);
+    addNotification("City deleted successfully", "success");
   }
 
   return (

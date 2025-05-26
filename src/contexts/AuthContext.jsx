@@ -5,7 +5,6 @@ const AuthContext = createContext();
 
 const initialState = {
   user: JSON.parse(localStorage.getItem("user")) || null,
-  error: null,
 };
 
 function reducer(state, action) {
@@ -13,28 +12,19 @@ function reducer(state, action) {
     case "login":
       return {
         user: action.payload.user,
-        error: null,
       };
     case "register":
       return {
         user: action.payload.user,
-        error: null,
       };
     case "logout":
       return {
         user: null,
-        error: null,
       };
     case "update_profile":
       return {
         ...state,
         user: { ...state.user, ...action.payload },
-        error: null,
-      };
-    case "error":
-      return {
-        ...state,
-        error: action.payload,
       };
     default:
       throw new Error("Unknown action");
@@ -42,7 +32,7 @@ function reducer(state, action) {
 }
 
 export default function AuthProvider({ children }) {
-  const [{ user, error }, dispatch] = useReducer(reducer, initialState);
+  const [{ user }, dispatch] = useReducer(reducer, initialState);
 
   async function login(email, password) {
     try {
@@ -55,7 +45,6 @@ export default function AuthProvider({ children }) {
         payload: { user: data.user },
       });
     } catch (err) {
-      dispatch({ type: "error", payload: err.message });
       throw err;
     }
   }
@@ -75,7 +64,6 @@ export default function AuthProvider({ children }) {
         payload: { user: data.user },
       });
     } catch (err) {
-      dispatch({ type: "error", payload: err.message });
       throw err;
     }
   }
@@ -101,7 +89,6 @@ export default function AuthProvider({ children }) {
 
       return data;
     } catch (err) {
-      dispatch({ type: "error", payload: err.message });
       throw err;
     }
   }
@@ -115,7 +102,6 @@ export default function AuthProvider({ children }) {
 
       return data;
     } catch (err) {
-      dispatch({ type: "error", payload: err.message });
       throw err;
     }
   }
@@ -134,7 +120,6 @@ export default function AuthProvider({ children }) {
 
       return data;
     } catch (err) {
-      dispatch({ type: "error", payload: err.message });
       throw err;
     }
   }
@@ -143,7 +128,6 @@ export default function AuthProvider({ children }) {
     <AuthContext.Provider
       value={{
         user,
-        error,
         login,
         register,
         logout,

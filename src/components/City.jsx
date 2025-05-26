@@ -1,15 +1,16 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useCities } from "../contexts/CitiesContext";
+import { useNotification } from "../contexts/NotificationContext";
 import BackButton from "./BackButton";
 import styles from "./City.module.css";
 import Spinner from "./Spinner";
 import { formatDate } from "../utils/dates";
 
-
 function City() {
   const { id } = useParams();
   const { getCity, currentCity, isLoading, updateCity } = useCities();
+  const { addNotification } = useNotification();
 
   useEffect(() => {
     getCity(id);
@@ -17,12 +18,13 @@ function City() {
 
   const { cityName, emoji, date, notes } = currentCity;
 
-  function handleUpdateVisit(e) {
+  async function handleUpdateVisit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
     const updatedNotes = formData.get("notes");
     const updatedDate = formData.get("date");
-    updateCity(id, { notes: updatedNotes, date: updatedDate });
+    await updateCity(id, { notes: updatedNotes, date: updatedDate });
+    addNotification("City visit updated successfully", "success");
     e.target.reset();
   }
 
@@ -52,7 +54,9 @@ function City() {
               type="date"
               id="date"
               name="date"
-              defaultValue={date ? new Date(date).toISOString().split("T")[0] : ""}
+              defaultValue={
+                date ? new Date(date).toISOString().split("T")[0] : ""
+              }
               max={new Date().toISOString().split("T")[0]}
             />
           </div>
@@ -68,7 +72,9 @@ function City() {
             />
           </div>
 
-          <button type="submit" className={styles.saveBtn}>Save</button>
+          <button type="submit" className={styles.saveBtn}>
+            Save
+          </button>
         </fieldset>
       </form>
 

@@ -9,6 +9,7 @@ import BackButton from "./BackButton";
 
 import styles from "./Form.module.css";
 import { useUrlPosition } from "../hooks/useUrlPosition";
+import { useNotification } from "../contexts/NotificationContext";
 import Message from "./Message";
 import Spinner from "./Spinner";
 import { useCities } from "../contexts/CitiesContext";
@@ -27,6 +28,7 @@ const BASE_URL = "https://api.bigdatacloud.net/data/reverse-geocode-client";
 function Form() {
   const [lat, lng] = useUrlPosition();
   const { createCity, isLoading } = useCities();
+  const { addNotification } = useNotification();
   const navigate = useNavigate();
 
   const [isLoadingGeocoding, setIsLoadingGeocoding] = useState(false);
@@ -85,6 +87,7 @@ function Form() {
     };
 
     await createCity(newCity);
+    addNotification("City added successfully", "success");
     navigate("/app/cities");
   }
 
