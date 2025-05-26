@@ -29,6 +29,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "https://i.pravatar.cc/100?u=zz",
   },
+  likedCountries: {
+    type: [String],
+    default: [],
+  },
   createdAt: {
     type: Date,
     default: Date.now,

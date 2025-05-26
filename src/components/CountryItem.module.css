@@ -70,3 +70,15 @@
 .datesList li {
   margin-bottom: 0.3rem;
 }
+
+.likeButton {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.likeButton:hover {
+  transform: scale(1.2);
+}

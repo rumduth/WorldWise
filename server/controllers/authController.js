@@ -40,6 +40,7 @@ exports.register = async (req, res) => {
       username: newUser.username,
       email: newUser.email,
       avatar: newUser.avatar || "https://i.pravatar.cc/100?u=" + newUser.email, // Default avatar
+      likedCountries: newUser.likedCountries,
     };
 
     res.status(201).json({
@@ -78,6 +79,7 @@ exports.login = async (req, res) => {
       username: user.username,
       email: user.email,
       avatar: user.avatar,
+      likedCountries: user.likedCountries,
     };
 
     return res.status(200).json({
@@ -129,4 +131,3 @@ exports.auth = async (req, res, next) => {
     });
   }
 };
-

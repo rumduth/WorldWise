@@ -1,10 +1,14 @@
 // src/components/CountryItem.jsx
 import { useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
 import styles from "./CountryItem.module.css";
 import { formatDate } from "../utils/dates";
 
 function CountryItem({ country }) {
   const [showDates, setShowDates] = useState(false);
+  const { user, toggleLikeCountry } = useAuth();
+  const isLiked = user?.likedCountries?.includes(country.country) || false;
+
   return (
     <li className={styles.countryItem} onClick={() => setShowDates(!showDates)}>
       <div>
@@ -15,6 +19,15 @@ function CountryItem({ country }) {
           (Visited {country.visitCount}{" "}
           {country.visitCount === 1 ? "time" : "times"})
         </span>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleLikeCountry(country.country);
+          }}
+          className={styles.likeButton}
+        >
+          {isLiked ? "❤️" : "♡"}
+        </button>
       </div>
 
       {showDates && country.visitDates && country.visitDates.length > 0 && (

@@ -90,30 +90,49 @@ export default function AuthProvider({ children }) {
   async function updateProfile(profileData) {
     try {
       const data = await userAPI("profile", "PUT", profileData);
-      
+
       // Update local storage with new user data
       const updatedUser = { ...user, ...data.user };
       localStorage.setItem("user", JSON.stringify(updatedUser));
-      
+
       dispatch({
         type: "update_profile",
         payload: data.user,
       });
-      
+
       return data;
     } catch (err) {
       dispatch({ type: "error", payload: err.message });
       throw err;
     }
   }
-  
+
   async function updatePassword(currentPassword, newPassword) {
     try {
       const data = await userAPI("password", "PUT", {
         currentPassword,
         newPassword,
       });
-      
+
+      return data;
+    } catch (err) {
+      dispatch({ type: "error", payload: err.message });
+      throw err;
+    }
+  }
+
+  async function toggleLikeCountry(country) {
+    try {
+      const data = await userAPI("like-country", "POST", { country });
+
+      const updatedUser = { ...user, likedCountries: data.likedCountries };
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+
+      dispatch({
+        type: "update_profile",
+        payload: { likedCountries: data.likedCountries },
+      });
+
       return data;
     } catch (err) {
       dispatch({ type: "error", payload: err.message });
@@ -131,6 +150,7 @@ export default function AuthProvider({ children }) {
         logout,
         updateProfile,
         updatePassword,
+        toggleLikeCountry,
       }}
     >
       {children}
