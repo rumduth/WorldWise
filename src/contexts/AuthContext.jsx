@@ -1,4 +1,3 @@
-// src/contexts/AuthContext.jsx
 import { createContext, useContext, useReducer } from "react";
 import { authAPI } from "../services/authService";
 import { userAPI } from "../services/userService";

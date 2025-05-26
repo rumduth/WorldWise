@@ -1,0 +1,27 @@
+.notificationContainer {
+  position: fixed;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+}
+
+.notification {
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  color: white;
+  min-width: 200px;
+}
+
+.success {
+  background-color: green;
+}
+
+.error {
+  background-color: red;
+}
+
+.info {
+  background-color: blue;
+}

@@ -3,19 +3,29 @@ import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import PageNav from "../components/PageNav";
 import { useAuth } from "../contexts/AuthContext";
+import { useNotification } from "../contexts/NotificationContext";
 import styles from "./Login.module.css";
 
 export default function Login() {
-  // PRE-FILL FOR DEV PURPOSES
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const { login, user } = useAuth();
+  const { addNotification } = useNotification();
   const navigate = useNavigate();
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    if (email && password) login(email, password);
+    if (!email || !password) {
+      addNotification("Email and password are required", "error");
+      return;
+    }
+    try {
+      await login(email, password);
+      addNotification("Logged in successfully", "success");
+    } catch (err) {
+      addNotification(err.message || "Login failed", "error");
+    }
   }
 
   useEffect(

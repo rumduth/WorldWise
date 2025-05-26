@@ -8,7 +8,9 @@ import {
 
 import { CitiesProvider } from "./contexts/CitiesContext";
 import AuthProvider from "./contexts/AuthContext";
+import { NotificationProvider } from "./contexts/NotificationContext";
 import ProtectedRoute from "./pages/ProtectedRoute";
+import Notification from "./components/Notification";
 
 import CityList from "./components/CityList";
 import CountryList from "./components/CountryList";
@@ -24,7 +26,6 @@ const Register = lazy(() => import("./pages/Register"));
 const AppLayout = lazy(() => import("./pages/AppLayout"));
 const PageNotFound = lazy(() => import("./pages/PageNotFound"));
 const Profile = lazy(() => import("./pages/Profile"));
-
 
 // Wrap protected routes with your ProtectedRoute component
 const ProtectedAppLayout = () => (
@@ -79,7 +80,7 @@ const router = createBrowserRouter([
         path: "form",
         element: <Form />,
       },
-       {
+      {
         path: "profile",
         element: <Profile />,
       },
@@ -95,9 +96,12 @@ function App() {
   return (
     <AuthProvider>
       <CitiesProvider>
-        <Suspense fallback={<SpinnerFullPage />}>
-          <RouterProvider router={router} />
-        </Suspense>
+        <NotificationProvider>
+          <Suspense fallback={<SpinnerFullPage />}>
+            <RouterProvider router={router} />
+          </Suspense>
+          <Notification />
+        </NotificationProvider>
       </CitiesProvider>
     </AuthProvider>
   );

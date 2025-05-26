@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import { useNotification } from "../contexts/NotificationContext";
 import styles from "./Login.module.css";
 import PageNav from "../components/PageNav";
 import Button from "../components/Button";
@@ -11,8 +12,8 @@ function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
   const { register, user } = useAuth();
+  const { addNotification } = useNotification();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,28 +22,31 @@ function Register() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setError("");
 
     // Basic validation
     if (!username || !email || !password || !confirmPassword) {
-      setError("All fields are required");
+      addNotification("All fields are required", "error");
       return;
     }
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      addNotification("Passwords do not match", "error");
       return;
     }
 
     if (password.length < 6) {
-      setError("Password must be at least 6 characters");
+      addNotification("Password must be at least 6 characters", "error");
       return;
     }
 
     try {
       await register(username, email, password);
+      addNotification("Registered successfully", "success");
     } catch (err) {
-      setError(err.message || "Registration failed. Please try again.");
+      addNotification(
+        err.message || "Registration failed. Please try again.",
+        "error"
+      );
     }
   }
 
@@ -90,8 +94,6 @@ function Register() {
             value={confirmPassword}
           />
         </div>
-
-        {error && <p className={styles.error}>{error}</p>}
 
         <div>
           <Button type="primary">Register</Button>
