@@ -1,0 +1,99 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+}
+
+.modalContent {
+  background: var(--color-dark--2);
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--color-dark--1);
+}
+
+.closeButton {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--color-light--2);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.closeButton:hover {
+  background-color: var(--color-dark--1);
+  color: var(--color-light--1);
+}
+
+.modalContent h3 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: var(--color-light--1);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.visitsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.visitItem {
+  background: var(--color-dark--1);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+
+.visitItem:hover {
+  background: var(--color-dark--0);
+  border-color: var(--color-brand--2);
+  transform: translateY(-1px);
+}
+
+.visitDate {
+  font-weight: 600;
+  color: var(--color-light--1);
+  margin-bottom: 0.3rem;
+}
+
+.visitCity {
+  color: var(--color-light--2);
+  font-size: 0.9rem;
+}
+
+.noVisits {
+  text-align: center;
+  color: var(--color-light--2);
+  font-style: italic;
+  padding: 2rem;
+}
